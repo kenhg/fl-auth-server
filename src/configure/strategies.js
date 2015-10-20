@@ -12,9 +12,9 @@ export default function configureStrategies(options={}) {
   const strategy_options = {User, ...options.login}
   passport.use('password', new PasswordStrategy(strategy_options))
   passport.use('register', new RegisterStrategy(strategy_options))
-  // passport.use('bearer', new BearerStrategy(strategy_options))
+  passport.use('bearer', new BearerStrategy(strategy_options))
 
-  if (options.facebook) {
+  if (options.facebook && options.facebook.app_id && options.facebook.app_secret) {
     passport.use(new FacebookStrategy({
       clientID: options.facebook.app_id,
       clientSecret: options.facebook.app_secret,
