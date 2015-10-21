@@ -1,5 +1,5 @@
 import passport from 'passport'
-import logout from '../lib'
+import {logout} from '../lib'
 
 export default function configureRoutes(options={}) {
   const app = options.app
