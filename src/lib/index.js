@@ -41,7 +41,8 @@ export function findOrCreateAccessToken(query, options={}, done) {
         callback()
       })
     })
-  } else if (!refresh_token) {
+  }
+  else if (!refresh_token) {
     queue.defer((callback) => {
       refresh_token = new RefreshToken(query)
       refresh_token.save(callback)
