@@ -10,7 +10,7 @@ export default class RegisterStrategy extends Strategy {
     if (verify) this.verify = verify.bind(this)
   }
 
-  authenticate(req, options) {
+  authenticate(req) {
     const email = (req.body && req.body[this.username_field]) || (req.query && req.query[this.username_field])
     const password = (req.body && req.body[this.password_field]) || (req.query && req.query[this.password_field])
 

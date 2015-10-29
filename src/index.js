@@ -4,6 +4,7 @@ import configureRoutes from './configure/routes'
 import configureMiddleware from './configure/middleware'
 import configureSerializing from './configure/serialize'
 import sessionOrToken from './middleware/session_or_token'
+import createAuthMiddleware from './middleware/authorised'
 
 const defaults = {
   middleware: {
@@ -43,4 +44,4 @@ export default function configure(options={}) {
   configureRoutes(options)
 }
 
-export {configure, sessionOrToken}
+export {configure, sessionOrToken, createAuthMiddleware}
