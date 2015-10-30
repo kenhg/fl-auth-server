@@ -1,4 +1,3 @@
-import _ from 'lodash'
 import LocalStrategy from './local'
 
 export default class RegisterStrategy extends LocalStrategy {

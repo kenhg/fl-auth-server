@@ -100,3 +100,7 @@ export function logout(req, callback) {
     callback(err)
   })
 }
+
+export function sendError(res, err) {
+  res.status(500).send({error: err.message || err})
+}

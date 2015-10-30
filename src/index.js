@@ -15,6 +15,8 @@ const defaults = {
     login: '/login',
     logout: '/logout',
     register: '/register',
+    reset_request: '/reset_request',
+    reset: '/reset',
     success: '/',
   },
   facebook: {
@@ -31,10 +33,15 @@ const defaults = {
     password_field: 'password',
     bad_request_message: 'Missing credentials',
   },
+  reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
+  sendResetEmail: (user, callback) => {
+    console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('reset_token'))
+    callback()
+  },
 }
 
-export default function configure(options={}) {
-  _.merge(options, defaults)
+export default function configure(options_={}) {
+  const options = _.merge(defaults, options_)
   if (!options.app) throw new Error('[fl-auth] init: Missing app from options')
   options.User = options.User || require('./models/user')
 
