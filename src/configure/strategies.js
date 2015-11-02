@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import passport from 'passport'
 import {Strategy as FacebookStrategy} from 'passport-facebook'
-import {BearerStrategy, PasswordStrategy, RegisterStrategy} from '../strategies'
+import {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy} from '../strategies'
 
 
 export default function configureStrategies(options={}) {
@@ -13,6 +13,7 @@ export default function configureStrategies(options={}) {
   passport.use('password', new PasswordStrategy(strategy_options))
   passport.use('register', new RegisterStrategy(strategy_options))
   passport.use('bearer', new BearerStrategy(strategy_options))
+  passport.use('reset', new ResetStrategy(strategy_options))
 
   if (options.facebook && options.facebook.app_id && options.facebook.app_secret) {
     passport.use(new FacebookStrategy({

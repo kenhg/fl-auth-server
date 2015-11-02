@@ -32,8 +32,8 @@ const defaults = {
     username_field: 'email',
     password_field: 'password',
     bad_request_message: 'Missing credentials',
+    reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
   },
-  reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
   sendResetEmail: (user, callback) => {
     console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('reset_token'))
     callback()
