@@ -10,11 +10,15 @@ export default class RegisterStrategy extends Strategy {
     if (verify) this.verify = verify.bind(this)
   }
 
+  isValidEmail(email) {
+    return email && email.match(/.+@.+/)
+  }
+
   authenticate(req) {
     const email = (req.body && req.body[this.username_field]) || (req.query && req.query[this.username_field])
     const password = (req.body && req.body[this.password_field]) || (req.query && req.query[this.password_field])
 
-    if (!email || !password) return this.fail(this.bad_request_message)
+    if (!this.isValidEmail(email) || !password) return this.fail(this.bad_request_message)
 
     this.verify(req, email, password, (err, user, info) => {
       if (err) return this.error(err)
