@@ -88,7 +88,7 @@ export default function configureRoutes(options={}) {
         user.save({reset_token, reset_token_created_at: moment.utc().toDate()}, (err) => {
           if (err) return sendError(res, err)
 
-          options.login.sendResetEmail(user, (err) => {
+          options.sendResetEmail(user, (err) => {
             if (err) return sendError(res, err)
             res.status(200).send({})
           })
