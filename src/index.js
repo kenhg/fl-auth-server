@@ -5,6 +5,7 @@ import configureMiddleware from './configure/middleware'
 import configureSerializing from './configure/serialize'
 import sessionOrToken from './middleware/session_or_token'
 import createAuthMiddleware from './middleware/authorised'
+import createInternalMiddleware from './middleware/internal'
 
 const defaults = {
   middleware: {
@@ -51,4 +52,4 @@ export default function configure(options_={}) {
   configureRoutes(options)
 }
 
-export {configure, sessionOrToken, createAuthMiddleware}
+export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware}
