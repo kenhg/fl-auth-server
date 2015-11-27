@@ -14,6 +14,7 @@ Usage (server):
         initialize: true,                 // enable passport middleware 
         session: true,                    // (don't change these)
       },
+
       paths: {
         login: '/login',                  // Route to log someone in
         register: '/register',            // Route to register a new user
@@ -26,6 +27,7 @@ Usage (server):
         success: '/',                     // Go here when a user logs in or registers 
                                           // (if there's no other location specified) <- This isn't implemented yet
       },
+
       facebook: {                         // facebook login info
         url: process.env.URL,
         paths: {
@@ -35,6 +37,7 @@ Usage (server):
         scope: ['email'],
         profile_fields: ['id', 'displayName', 'email'],
       },
+      
       login: {                          
         username_field: 'email',                                // The login/register strategies look for these properties
         password_field: 'password',                             // on the request body
