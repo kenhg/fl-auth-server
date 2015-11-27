@@ -8,6 +8,8 @@ Usage (server):
     configureAuth({
       app,
 
+      User: require('./models/user'),     // Give fl-auth-server another User model to use if you have a custom one
+
       middleware: {
         initialize: true,                 // enable passport middleware 
         session: true,                    // (don't change these)
