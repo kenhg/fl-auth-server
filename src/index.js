@@ -6,6 +6,8 @@ import configureSerializing from './configure/serialize'
 import sessionOrToken from './middleware/session_or_token'
 import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
+import AccessToken from './models/access_token'
+import RefreshToken from './models/refresh_token'
 
 const defaults = {
   middleware: {
@@ -44,7 +46,8 @@ const defaults = {
 export default function configure(options_={}) {
   const options = _.merge(defaults, options_)
   if (!options.app) throw new Error('[fl-auth] init: Missing app from options')
-  options.User = options.User || require('./models/user')
+
+  if (!options.User) options.User = require('./models/user')
 
   configureMiddleware(options)
   configureSerializing(options)
@@ -52,4 +55,4 @@ export default function configure(options_={}) {
   configureRoutes(options)
 }
 
-export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware}
+export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware, AccessToken, RefreshToken}

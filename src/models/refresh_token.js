@@ -9,8 +9,6 @@ export default class RefreshToken extends Backbone.Model {
   schema = () => ({
     created_at: [{indexed: true}],
     expires_at: [{indexed: true}],
-    // client: -> ['belongsTo', require('./client')]
-    user: () => ['belongsTo', require('./user')],
     access_tokens: () => ['hasMany', require('./access_token')],
   })
 

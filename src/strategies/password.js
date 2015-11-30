@@ -1,6 +1,7 @@
 import LocalStrategy from './local'
 
-export default class RegisterStrategy extends LocalStrategy {
+// Strategy to log a user in using their username/password
+export default class PasswordStrategy extends LocalStrategy {
 
   verify(req, email, password, callback) {
     const User = this.User
