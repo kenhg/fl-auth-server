@@ -10,6 +10,7 @@ export default function createAuthMiddleware(options) {
 
   return function authorised(req, res, next) {
     if (!req.isAuthenticated()) return res.status(401).send({error: options.unauthorised_message})
+    if (options.reject_$include && req.query.$include) return res.status(401).send({error: 'No $include'})
 
     options.canAccess({user: req.user, req, res}, (err, authorised) => {
       if (err) return res.status(500).send({error: err})
