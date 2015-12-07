@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import LocalStrategy from './local'
 
 export default class RegisterStrategy extends LocalStrategy {
@@ -9,7 +10,8 @@ export default class RegisterStrategy extends LocalStrategy {
       if (err) return callback(err)
       if (existing_user) return callback(null, false, 'User already exists')
 
-      const user = new User({email, password: User.createHash(password)})
+      const extra_params = _.pick(req.body, this.extra_register_params)
+      const user = new User({email, password: User.createHash(password), ...extra_params})
       user.save(callback)
     })
   }

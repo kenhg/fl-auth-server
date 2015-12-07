@@ -1,5 +1,9 @@
 # Auth package for FounderLab apps
 
+Changes: 
+
+- 0.2.0: Extra params for registration can be configured. Authorised middleware delegates more to the canAccess option
+
 Usage (server):
 
     import {configure as configureAuth, loggedIn} from 'fl-auth-server'
@@ -39,10 +43,11 @@ Usage (server):
       },
       
       login: {                          
-        username_field: 'email',                                // The login/register strategies look for these properties
-        password_field: 'password',                             // on the request body
+        username_field: 'email',                                // The login/register strategies look for these properties on the request body
+        password_field: 'password',                             //
         bad_request_message: 'Missing credentials',             // If username or password is missing this is sent
         reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7,        // Reset tokens expire in 7 days by default
+        extra_register_params: ['type'],                        // Extra fields to be plucked from the body of a POST to /register that will be saved on the user model. Fields not in this whitelist (other than username_field/password_field) are ignored
       },
 
       // You need to override this with a function that sends this user an email with a link to the reset page, 
