@@ -35,7 +35,7 @@ export default class BearerStrategy extends Strategy {
       //   this.refreshToken(access_token.refresh_token, (err, new_access_token) => {
       //     if (err || !new_access_token) {
       //       logout()
-      //       return res.redirect(302, '/login')
+      //       return res.redirect(302, `/login?redirect_to=${req.url}`)
       //     }
       //     req.session.access_token = new_access_token
       //     req.session.save(err => { if (err) console.log('Failed to save access token to session during refresh') } )
