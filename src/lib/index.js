@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import crypto from 'crypto'
 import moment from 'moment'
 import Queue from 'queue-async'
 import AccessToken from '../models/access_token'
@@ -103,4 +104,8 @@ export function logout(req, callback) {
 
 export function sendError(res, err) {
   res.status(500).send({error: err.message || err})
+}
+
+export function createToken(length=20) {
+  return crypto.randomBytes(length).toString('hex')
 }

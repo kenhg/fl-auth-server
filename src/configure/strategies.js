@@ -9,7 +9,7 @@ export default function configureStrategies(options={}) {
   if (!User) throw new Error(`[fl-auth] Missing User model from configureStrategies, got ${options}`)
 
   // passport functions
-  const strategy_options = {User, ...options.login}
+  const strategy_options = {User, sendConfirmationEmail: options.sendConfirmationEmail, ...options.login}
   passport.use('password', new PasswordStrategy(strategy_options))
   passport.use('register', new RegisterStrategy(strategy_options))
   passport.use('bearer', new BearerStrategy(strategy_options))

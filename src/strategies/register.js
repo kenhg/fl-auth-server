@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import {createToken} from '../lib'
 import LocalStrategy from './local'
 
 export default class RegisterStrategy extends LocalStrategy {
@@ -11,8 +12,14 @@ export default class RegisterStrategy extends LocalStrategy {
       if (existing_user) return callback(null, false, 'User already exists')
 
       const extra_params = _.pick(req.body, this.extra_register_params)
-      const user = new User({email, password: User.createHash(password), ...extra_params})
-      user.save(callback)
+      const user = new User({email, password: User.createHash(password), email_confirmation_token: createToken(), ...extra_params})
+      user.save(err => {
+        if (err) return callback(err)
+        callback(null, user)
+        this.sendConfirmationEmail(user, err => {
+          if (err) console.log('Error sending confirmation email')
+        })
+      })
     })
   }
 

@@ -14,13 +14,6 @@ export default class User extends Backbone.Model {
 
   static createHash(password) { return bcrypt.hashSync(password) }
 
-  static createResetToken(callback) {
-    crypto.randomBytes(20, (err, buf) => {
-      if (err) return callback(err)
-      callback(null, buf.toString('hex'))
-    })
-  }
-
   defaults() { return {created_at: moment.utc().toDate()} }
 
   passwordIsValid(password) { return bcrypt.compareSync(password, this.get('password')) }

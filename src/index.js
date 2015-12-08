@@ -8,6 +8,7 @@ import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
 import AccessToken from './models/access_token'
 import RefreshToken from './models/refresh_token'
+import {createToken} from './lib'
 
 const defaults = {
   middleware: {
@@ -20,6 +21,7 @@ const defaults = {
     register: '/register',
     reset_request: '/reset_request',
     reset: '/reset',
+    confirm: '/confirm_email',
     success: '/',
   },
   facebook: {
@@ -37,6 +39,10 @@ const defaults = {
     bad_request_message: 'Missing credentials',
     reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
     extra_register_params: [],
+  },
+  sendConfirmationEmail: (user, callback) => {
+    console.log('[fl-auth] sendConfirmationEmail not configured. No email confirmation email will be sent. Token:', user.get('email'), user.get('email_confirmation_token'))
+    callback()
   },
   sendResetEmail: (user, callback) => {
     console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('reset_token'))
@@ -56,4 +62,4 @@ export default function configure(options_={}) {
   configureRoutes(options)
 }
 
-export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware, AccessToken, RefreshToken}
+export {configure, sessionOrToken, createAuthMiddleware, createInternalMiddleware, AccessToken, RefreshToken, createToken}

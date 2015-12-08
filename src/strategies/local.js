@@ -29,8 +29,7 @@ export default class RegisterStrategy extends Strategy {
 
         req.session.access_token = {id: access_token, expires_at: info.expires_at}
         req.session.save(err => {if (err) console.log('Error saving session', err)})
-        this.success(user, {access_token})
-
+        this.success(_.pick(user.toJSON(), 'id', 'email', ...this.extra_register_params), {access_token})
       })
     })
   }

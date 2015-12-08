@@ -1,6 +1,6 @@
 import moment from 'moment'
 import passport from 'passport'
-import {logout, sendError} from '../lib'
+import {logout, sendError, createToken} from '../lib'
 
 export default function configureRoutes(options={}) {
   const app = options.app
@@ -20,10 +20,7 @@ export default function configureRoutes(options={}) {
         const {access_token} = info
         return res.json({
           access_token,
-          user: {
-            id: req.user.id,
-            email: req.user.get('email'),
-          },
+          user,
         })
       })
     })(req, res, next)
@@ -42,10 +39,7 @@ export default function configureRoutes(options={}) {
         const {access_token} = info
         return res.json({
           access_token,
-          user: {
-            id: user.id,
-            email: user.get('email'),
-          },
+          user,
         })
       })
     })(req, res, next)
@@ -64,10 +58,7 @@ export default function configureRoutes(options={}) {
         const {access_token} = info
         return res.json({
           access_token,
-          user: {
-            id: user.id,
-            email: user.get('email'),
-          },
+          user,
         })
       })
     })(req, res, next)
@@ -82,17 +73,30 @@ export default function configureRoutes(options={}) {
       if (err) return sendError(res, err)
       if (!user) return res.status(402).json({error: 'User not found'})
 
-      User.createResetToken((err, reset_token) => {
+      user.save({reset_token: createToken(), reset_token_created_at: moment.utc().toDate()}, (err) => {
         if (err) return sendError(res, err)
 
-        user.save({reset_token, reset_token_created_at: moment.utc().toDate()}, (err) => {
+        options.sendResetEmail(user, (err) => {
           if (err) return sendError(res, err)
-
-          options.sendResetEmail(user, (err) => {
-            if (err) return sendError(res, err)
-            res.status(200).send({})
-          })
+          res.status(200).send({})
         })
+      })
+    })
+  })
+
+  // confirm a user's email address
+  app.post(options.paths.confirm, (req, res) => {
+    const {email, token} = req.body
+    if (!email) return res.status(400).send({error: 'No email provided'})
+    if (!token) return res.status(400).send({error: 'No email confirmation token provided'})
+
+    User.findOne({email, email_confirmation_token: token}, (err, user) => {
+      if (err) return sendError(res, err)
+      if (!user) return res.status(402).json({error: 'User not found or token is invalid'})
+
+      user.save({email_confirmation_token: null, email_confirmed_at: moment.utc().toDate()}, (err) => {
+        if (err) return sendError(res, err)
+        res.status(200).send({})
       })
     })
   })

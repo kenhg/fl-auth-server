@@ -9,7 +9,7 @@ export default class ResetStrategy extends LocalStrategy {
     const {reset_token} = req.body
     if (!reset_token) return callback(null, null, 'No token provided')
 
-    User.findOne({reset_token}, (err, user) => {
+    User.findOne({email, reset_token}, (err, user) => {
       if (err) return callback(err)
       if (!user) return callback(null, null, 'No user found with this token')
 

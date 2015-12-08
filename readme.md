@@ -2,6 +2,7 @@
 
 Changes: 
 
+- 0.3.0: Email confirmation is sent on registration. Configure the email sending via the sendConfirmationEmail option
 - 0.2.0: Extra params for registration can be configured. Authorised middleware delegates more to the canAccess option
 
 Usage (server):
@@ -57,5 +58,15 @@ Usage (server):
         console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('reset_token'))
         callback()
       },
+
+      sendConfirmationEmail: (user, callback) => {
+        // same deal with this. Send an email with a link to confirm the email
+        // e.g.
+        const email = user.get('email')
+        const query = querystring.stringify({email, token: user.get('email_confirmation_token')})
+        const message = `${app_config.url}/confirm_email?${query}`
+        console.log('Sending email_confirmation_token email', email, user.get('email_confirmation_token'), message)
+        sendMail({to: email, subject: `Confirm your email for ${app_config.url}`, text: message}, callback)
+      }
 
     })
