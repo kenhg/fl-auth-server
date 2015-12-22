@@ -1,8 +1,32 @@
 
 export default function createInternalAuth(options) {
-  const {secret} = options
+  const {User, secret} = options
   return (req, res, next) => {
-    if (req.query.$auth_secret === secret) req.user = {dummy: true, admin: true, auth_by_secret: secret}
+    if (req.query.$auth_secret === secret) {
+      delete req.query.$auth_secret
+      if (User && req.query.$user_id) {
+        console.log('req.query', req.query)
+        let user_id
+        console.log('req.query.$user_id before parse', req.query.$user_id)
+        try {
+          user_id = JSON.parse(req.query.$user_id)
+        }
+        catch (err) {
+          user_id = req.query.$user_id
+          console.log('err', user_id)
+        }
+        console.log('user_id after parse', user_id)
+        return User.findOne(user_id, (err, user) => {
+          if (err) return res.status(500).send(`[fl-auth] createInternalAuth: Error retrieving $user_id ${req.query.$user_id} ${err.message || err}`)
+          if (!user) return res.status(500).send(`[fl-auth] createInternalAuth: Can't find $user_id ${req.query.$user_id}`)
+          req.user = user.toJSON()
+          delete req.query.$user_id
+          next()
+        })
+      }
+      req.user = {id: 'dummy', dummy: true, admin: true, auth_by_secret: secret}
+      return next()
+    }
     next()
   }
 }

@@ -1,13 +1,13 @@
 {
   "name": "fl-auth-server",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Auth server package for FounderLab apps",
   "main": "lib/index.js",
   "author": {
     "name": "Gwilym Humphreys",
     "url": "https://github.com/gwilymhumphreys"
   },
-  "license": "",
+  "license": "MIT",
   "scripts": {
     "prepublish": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
     "build": "rm -rf ./lib && babel ./src --ignore '/node_modules/' --out-dir ./lib",
