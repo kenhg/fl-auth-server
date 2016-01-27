@@ -7,8 +7,8 @@ if (!db_url) console.log('Missing process.env.DATABASE_URL')
 export default class RefreshToken extends Backbone.Model {
   url = `${db_url}/refresh_tokens`
   schema = () => ({
-    created_at: [{indexed: true}],
-    expires_at: [{indexed: true}],
+    created_at: ['Date', {indexed: true}],
+    expires_at: ['Date', {indexed: true}],
     access_tokens: () => ['hasMany', require('./access_token')],
   })
 
@@ -16,4 +16,9 @@ export default class RefreshToken extends Backbone.Model {
 
 }
 
-RefreshToken.prototype.sync = require('backbone-mongo').sync(RefreshToken)
+if (db_url.split(':')[0] === 'mongodb') {
+  RefreshToken.prototype.sync = require('backbone-mongo').sync(RefreshToken)
+}
+else {
+  RefreshToken.prototype.sync = require('backbone-sql').sync(RefreshToken)
+}

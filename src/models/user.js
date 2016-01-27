@@ -1,7 +1,6 @@
 import moment from 'moment'
 import Backbone from 'backbone'
 import bcrypt from 'bcrypt-nodejs'
-import crypto from 'crypto'
 
 const db_url = process.env.AUTH_DATABASE_URL || process.env.DATABASE_URL
 if (!db_url) console.log('Missing process.env.DATABASE_URL')
@@ -20,4 +19,9 @@ export default class User extends Backbone.Model {
 
 }
 
-User.prototype.sync = require('backbone-mongo').sync(User)
+if (db_url.split(':')[0] === 'mongodb') {
+  User.prototype.sync = require('backbone-mongo').sync(User)
+}
+else {
+  User.prototype.sync = require('backbone-sql').sync(User)
+}
