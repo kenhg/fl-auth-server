@@ -1,5 +1,6 @@
 import moment from 'moment'
 import Backbone from 'backbone'
+import {createToken} from '../lib'
 
 const db_url = process.env.AUTH_DATABASE_URL || process.env.DATABASE_URL
 if (!db_url) console.log('Missing process.env.DATABASE_URL')
@@ -12,7 +13,12 @@ export default class RefreshToken extends Backbone.Model {
     access_tokens: () => ['hasMany', require('./access_token')],
   })
 
-  defaults() { return {created_at: moment.utc().toDate()} }
+  defaults() {
+    return {
+      created_at: moment.utc().toDate(),
+      token: createToken(),
+    }
+  }
 
 }
 

@@ -15,7 +15,11 @@ export default class RegisterStrategy extends LocalStrategy {
       const user = new User({email, password: User.createHash(password), email_confirmation_token: createToken(), ...extra_params})
       user.save(err => {
         if (err) return callback(err)
-        callback(null, user)
+        if (user.onCreate) {
+          console.log('create')
+          user.onCreate(err => callback(err, user))
+        }
+        else callback(null, user)
         this.sendConfirmationEmail(user, err => {
           if (err) console.log('Error sending confirmation email')
         })

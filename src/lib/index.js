@@ -25,7 +25,7 @@ export function findOrCreateAccessToken(query, options={}, done) {
   const callback = (err, access_token) => {
     if (err) return done(err)
     if (!access_token) return done(new Error('Failed to create Access Token'))
-    done(null, access_token.id, access_token.get('refresh_token_id'), {expires_at: access_token.get('expires_at')})
+    done(null, access_token.get('token'), access_token.get('refresh_token_id'), {expires_at: access_token.get('expires_at')})
   }
 
   let access_token = null
@@ -35,10 +35,10 @@ export function findOrCreateAccessToken(query, options={}, done) {
   // check for existing token for non-expiring tokens
   if (!options.expires) {
     queue.defer((callback) => {
-      AccessToken.findOne(query, (err, access_token_) => {
+      AccessToken.findOne(query, (err, _access_token) => {
         if (err) return callback(err)
-        if (access_token_ && !access_token_.get('expires_at')) return callback() // exists but expires
-        access_token = access_token_
+        if (_access_token && !_access_token.get('expires_at')) return callback() // exists but expires
+        access_token = _access_token
         callback()
       })
     })
@@ -60,13 +60,9 @@ export function findOrCreateAccessToken(query, options={}, done) {
 
     access_token.save(err => {
       if (err) return callback(err)
-      cleanUpTokens(err => {
-        if (err) return callback(err)
-        callback(null, access_token)
-      })
+      cleanUpTokens(err => callback(err, access_token))
     })
   })
-
 }
 
 // Usage: parseAuthHeader(req, 'Bearer')
@@ -83,8 +79,8 @@ export function parseAuthHeader(req, name) {
   return auth
 }
 
-export function expireToken(id, callback) {
-  AccessToken.destroy(id, callback)
+export function expireToken(token, callback) {
+  AccessToken.destroy({token}, callback)
 }
 
 export function logout(req, callback) {
@@ -93,7 +89,7 @@ export function logout(req, callback) {
   req.session.destroy(err => {
     if (err) console.log('[fl-auth] logout: Error destroying session', err)
     if (access_token) {
-      return expireToken(access_token.id, err => {
+      return expireToken(access_token.token, err => {
         if (err) console.log('[fl-auth] logout: Failed to expire access_token', err)
         callback(err)
       })

@@ -24,12 +24,12 @@ export default class RegisterStrategy extends Strategy {
       if (err) return this.error(err)
       if (!user) return this.fail(info)
 
-      findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, access_token, refresh_token, info) => {
+      findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refresh_token, info) => {
         if (err) return this.error(err)
 
-        req.session.access_token = {id: access_token, expires_at: info.expires_at}
+        req.session.access_token = {token, expires_at: info.expires_at}
         req.session.save(err => {if (err) console.log('Error saving session', err)})
-        this.success(_.omit(user.toJSON(), 'password'), {access_token})
+        this.success(_.omit(user.toJSON(), 'password'), {access_token: token})
       })
     })
   }

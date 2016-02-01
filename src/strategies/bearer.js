@@ -21,11 +21,11 @@ export default class BearerStrategy extends Strategy {
     if (verify) this.verify = verify
   }
 
-  verify(req, access_token_id, callback) {
-    console.log('verifying', access_token_id)
+  verify(req, token, callback) {
+    console.log('verifying', token)
     const User = this.User
 
-    AccessToken.cursor({id: access_token_id, $one: true}).toJSON((err, access_token) => {
+    AccessToken.cursor({token, $one: true}).toJSON((err, access_token) => {
       if (err || !access_token) return callback(err, false)
 
       // todo: when to refresh tokens?
@@ -56,18 +56,18 @@ export default class BearerStrategy extends Strategy {
   }
 
   authenticate(req) {
-    let access_token = null
+    let token = null
 
-    if (req.headers && req.headers.authorization) access_token = parseAuthHeader(req, 'Bearer')
+    if (req.headers && req.headers.authorization) token = parseAuthHeader(req, 'Bearer')
 
-    if (this.check_request && !access_token) access_token = ((req.query && req.query.$access_token) || (req.body && req.body.$access_token))
+    if (this.check_request && !token) token = ((req.query && req.query.$access_token) || (req.body && req.body.$access_token))
     if (req.body && req.body.$access_token) delete req.body.$access_token
 
-    if (this.check_cookies && !access_token && req.cookies) access_token = req.cookies.access_token
+    if (this.check_cookies && !token && req.cookies) token = req.cookies.access_token
 
-    if (!access_token) return this.fail(401)
+    if (!token) return this.fail(401)
 
-    this.verify(req, access_token, (err, user, info) => {
+    this.verify(req, token, (err, user, info) => {
       if (err) return this.error(err)
       if (!user) return this.fail(401)
       this.success(user, info)

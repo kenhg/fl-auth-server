@@ -23,13 +23,13 @@ export default function configureStrategies(options={}) {
       profileFields: options.facebook.profile_fields,
     },
 
-    (access_token, refresh_token, profile, callback) => {
+    (token, refresh_token, profile, callback) => {
       const email = _.get(profile, 'emails[0].value', '')
       if (!email) return callback(new Error(`[fl-auth] FacebookStrategy: No email from Facebook, got profile: ${JSON.stringify(profile)}`))
 
       User.findOrCreate({email}, (err, user) => {
         if (err) return callback(err)
-        user.save({facebook_id: profile.id, name: profile.displayName, facebook_access_token: access_token}, callback)
+        user.save({facebook_id: profile.id, name: profile.displayName, facebook_access_token: token}, callback)
       })
 
     }))
