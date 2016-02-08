@@ -11,7 +11,7 @@ export default class RegisterStrategy extends Strategy {
   }
 
   isValidEmail(email) {
-    return email && email.match(/.+@.+/)
+    return email && _.isString(email) && email.match(/.+@.+/)
   }
 
   authenticate(req) {
