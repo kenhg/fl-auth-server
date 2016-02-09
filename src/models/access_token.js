@@ -10,6 +10,7 @@ export default class AccessToken extends Backbone.Model {
   schema = () => ({
     created_at: ['Date', {indexed: true}],
     expires_at: ['Date', {indexed: true}],
+    token: ['String', {indexed: true}],
     refresh_token: () => ['belongsTo', require('./refresh_token')],
   })
 
