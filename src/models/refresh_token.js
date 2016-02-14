@@ -12,6 +12,8 @@ export default class RefreshToken extends Backbone.Model {
     expires_at: ['Date', {indexed: true}],
     token: ['String', {indexed: true}],
 
+    user_id: ['Integer', {indexed: true}],
+
     access_tokens: () => ['hasMany', require('./access_token')],
   })
 
