@@ -11,6 +11,11 @@ export default class AccessToken extends Backbone.Model {
     created_at: ['Date', {indexed: true}],
     expires_at: ['Date', {indexed: true}],
     token: ['String', {indexed: true}],
+
+    // Leave the user relation out to allow for drop in replacement of user models,
+    // then add this field to the schema to ensure column creation in sql.
+    user_id: ['Integer', {indexed: true}],
+
     refresh_token: () => ['belongsTo', require('./refresh_token')],
   })
 
