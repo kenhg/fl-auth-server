@@ -2,7 +2,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import {Strategy} from 'passport'
 import {parseAuthHeader, logout} from '../lib'
-import AccessToken from '../models/access_token'
+import AccessToken from '../models/AccessToken'
 
 const defaults = {
   name: 'bearer',

@@ -6,8 +6,8 @@ import configureSerializing from './configure/serialize'
 import sessionOrToken from './middleware/session_or_token'
 import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
-import AccessToken from './models/access_token'
-import RefreshToken from './models/refresh_token'
+import AccessToken from './models/AccessToken'
+import RefreshToken from './models/RefreshToken'
 import {createToken} from './lib'
 
 const defaults = {

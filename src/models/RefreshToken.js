@@ -14,7 +14,7 @@ export default class RefreshToken extends Backbone.Model {
 
     user_id: ['Integer', {indexed: true}],
 
-    access_tokens: () => ['hasMany', require('./access_token')],
+    access_tokens: () => ['hasMany', require('./AccessToken')],
   })
 
   defaults() {

@@ -16,7 +16,7 @@ export default class AccessToken extends Backbone.Model {
     // then add this field to the schema to ensure column creation in sql.
     user_id: ['Integer', {indexed: true}],
 
-    refresh_token: () => ['belongsTo', require('./refresh_token')],
+    refresh_token: () => ['belongsTo', require('./RefreshToken')],
   })
 
   defaults() {

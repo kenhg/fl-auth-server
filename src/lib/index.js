@@ -2,8 +2,8 @@ import _ from 'lodash'
 import crypto from 'crypto'
 import moment from 'moment'
 import Queue from 'queue-async'
-import AccessToken from '../models/access_token'
-import RefreshToken from '../models/refresh_token'
+import AccessToken from '../models/AccessToken'
+import RefreshToken from '../models/RefreshToken'
 
 const RESOURCE_EXPIRY_MINS = 5
 const TOKEN_EXPIRY_MINS = 120

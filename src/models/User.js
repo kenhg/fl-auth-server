@@ -8,7 +8,7 @@ if (!db_url) console.log('Missing process.env.DATABASE_URL')
 export default class User extends Backbone.Model {
   url = `${db_url}/users`
   schema = () => ({
-    // access_tokens: () => ['hasMany', require('./access_token')],
+    // access_tokens: () => ['hasMany', require('./AccessToken')],
   })
 
   static createHash(password) { return bcrypt.hashSync(password) }
