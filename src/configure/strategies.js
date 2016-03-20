@@ -15,10 +15,10 @@ export default function configureStrategies(options={}) {
   passport.use('bearer', new BearerStrategy(strategy_options))
   passport.use('reset', new ResetStrategy(strategy_options))
 
-  if (options.facebook && options.facebook.app_id && options.facebook.app_secret) {
+  if (options.facebook && options.facebook.client_id && options.facebook.client_secret) {
     passport.use(new FacebookStrategy({
-      clientID: options.facebook.app_id,
-      clientSecret: options.facebook.app_secret,
+      clientID: options.facebook.client_id,
+      clientSecret: options.facebook.client_secret,
       callbackURL: options.facebook.url + options.facebook.paths.callback,
       profileFields: options.facebook.profile_fields,
     },
@@ -35,10 +35,10 @@ export default function configureStrategies(options={}) {
     }))
   }
 
-  if (options.linkedin && options.linkedin.app_id && options.linkedin.app_secret) {
+  if (options.linkedin && options.linkedin.client_id && options.linkedin.client_secret) {
     passport.use(new LinkedInStrategy({
-      clientID: options.linkedin.app_id,
-      clientSecret: options.linkedin.app_secret,
+      clientID: options.linkedin.client_id,
+      clientSecret: options.linkedin.client_secret,
       callbackURL: options.linkedin.url + options.linkedin.paths.callback,
       profileFields: options.linkedin.profile_fields,
       scope: options.linkedin.scope,
