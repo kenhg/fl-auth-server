@@ -15,6 +15,8 @@ const defaults = {
     initialize: true,
     session: true,
   },
+  serializing: {
+  },
   paths: {
     login: '/login',
     logout: '/logout',
