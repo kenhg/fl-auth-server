@@ -11,7 +11,7 @@ const SESSION_EXPIRY_DAYS = 365
 
 
 function cleanUpTokens(callback) {
-  AccessToken.destroy({expires_at: {$lte: moment.utc().subtract(RESOURCE_EXPIRY_MINS, 'minutes').toDate()}}, (err) => {
+  AccessToken.destroy({expires_at: {$lte: moment.utc().subtract(RESOURCE_EXPIRY_MINS, 'minutes').toDate()}}, err => {
     if (err) return callback(err)
     RefreshToken.destroy({created_at: {$lte: moment.utc().subtract(SESSION_EXPIRY_DAYS, 'days').toDate()}}, callback)
   })

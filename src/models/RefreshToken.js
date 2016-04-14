@@ -8,8 +8,8 @@ if (!db_url) console.log('Missing process.env.DATABASE_URL')
 export default class RefreshToken extends Backbone.Model {
   url = `${db_url}/refresh_tokens`
   schema = () => ({
-    created_at: ['Date', {indexed: true}],
-    expires_at: ['Date', {indexed: true}],
+    created_at: ['DateTime', {indexed: true}],
+    expires_at: ['DateTime', {indexed: true}],
     token: ['String', {indexed: true}],
 
     user_id: ['Integer', {indexed: true}],

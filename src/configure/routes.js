@@ -73,10 +73,10 @@ export default function configureRoutes(options={}) {
       if (err) return sendError(res, err)
       if (!user) return res.status(402).json({error: 'User not found'})
 
-      user.save({reset_token: createToken(), reset_token_created_at: moment.utc().toDate()}, (err) => {
+      user.save({reset_token: createToken(), reset_token_created_at: moment.utc().toDate()}, err => {
         if (err) return sendError(res, err)
 
-        options.sendResetEmail(user, (err) => {
+        options.sendResetEmail(user, err => {
           if (err) return sendError(res, err)
           res.status(200).send({})
         })
@@ -94,7 +94,7 @@ export default function configureRoutes(options={}) {
       if (err) return sendError(res, err)
       if (!user) return res.status(402).json({error: 'User not found or token is invalid'})
 
-      user.save({email_confirmation_token: null, email_confirmed_at: moment.utc().toDate()}, (err) => {
+      user.save({email_confirmation_token: null, email_confirmed_at: moment.utc().toDate()}, err => {
         if (err) return sendError(res, err)
         res.status(200).send({})
       })

@@ -8,8 +8,8 @@ if (!db_url) console.log('Missing process.env.DATABASE_URL')
 export default class AccessToken extends Backbone.Model {
   url = `${db_url}/access_tokens`
   schema = () => ({
-    created_at: ['Date', {indexed: true}],
-    expires_at: ['Date', {indexed: true}],
+    created_at: ['DateTime', {indexed: true}],
+    expires_at: ['DateTime', {indexed: true}],
     token: ['String', {indexed: true}],
 
     // Leave the user relation out to allow for drop in replacement of user models,

@@ -21,6 +21,7 @@ export default function createInternalAuth(options) {
         })
       }
       req.user = {id: 'dummy', dummy: true, admin: true, auth_by_secret: secret}
+      req.user.get = prop => req.user[prop]
       return next()
     }
     next()
