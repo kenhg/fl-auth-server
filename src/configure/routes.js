@@ -118,4 +118,9 @@ export default function configureRoutes(options={}) {
     app.get(options.facebook.paths.callback, passport.authenticate('facebook', {successRedirect: '/', failureRedirect: options.paths.login}))
   }
 
+  if (options.linkedin) {
+    app.get(options.linkedin.paths.redirect, passport.authenticate('linkedin'))
+    app.get(options.linkedin.paths.callback, passport.authenticate('linkedin', {successRedirect: '/', failureRedirect: options.paths.login}))
+  }
+
 }

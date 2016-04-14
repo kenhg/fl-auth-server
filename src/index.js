@@ -15,6 +15,8 @@ const defaults = {
     initialize: true,
     session: true,
   },
+  serializing: {
+  },
   paths: {
     login: '/login',
     logout: '/logout',
@@ -32,6 +34,16 @@ const defaults = {
     },
     scope: ['email'],
     profile_fields: ['id', 'displayName', 'email'],
+  },
+  linkedin: {
+    url: process.env.URL,
+    paths: {
+      redirect: '/auth/linkedin',
+      callback: '/auth/linkedin/callback',
+    },
+    scope: ['r_emailaddress', 'r_basicprofile'],
+    profile_fields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
+    onUserCreated: (user, profile, callback) => callback(),
   },
   login: {
     username_field: 'email',
