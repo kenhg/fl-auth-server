@@ -1,4 +1,4 @@
-# Auth package for FounderLab apps
+# Server side of fl-auth-*, an auth package for FounderLab apps
 
 Changes: 
 
