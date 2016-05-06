@@ -30,5 +30,5 @@ if (db_url.split(':')[0] === 'mongodb') {
   RefreshToken.prototype.sync = require('backbone-mongo').sync(RefreshToken)
 }
 else {
-  RefreshToken.prototype.sync = require('backbone-sql').sync(RefreshToken)
+  RefreshToken.prototype.sync = require('fl-backbone-sql').sync(RefreshToken)
 }

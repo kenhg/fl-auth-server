@@ -23,5 +23,5 @@ if (db_url.split(':')[0] === 'mongodb') {
   User.prototype.sync = require('backbone-mongo').sync(User)
 }
 else {
-  User.prototype.sync = require('backbone-sql').sync(User)
+  User.prototype.sync = require('fl-backbone-sql').sync(User)
 }

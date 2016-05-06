@@ -32,5 +32,5 @@ if (db_url.split(':')[0] === 'mongodb') {
   AccessToken.prototype.sync = require('backbone-mongo').sync(AccessToken)
 }
 else {
-  AccessToken.prototype.sync = require('backbone-sql').sync(AccessToken)
+  AccessToken.prototype.sync = require('fl-backbone-sql').sync(AccessToken)
 }
