@@ -11,9 +11,9 @@ const SESSION_EXPIRY_DAYS = 365
 
 
 function cleanUpTokens(callback) {
-  AccessToken.destroy({expires_at: {$lte: moment.utc().subtract(RESOURCE_EXPIRY_MINS, 'minutes').toDate()}}, err => {
+  AccessToken.destroy({expiresDate: {$lte: moment.utc().subtract(RESOURCE_EXPIRY_MINS, 'minutes').toDate()}}, err => {
     if (err) return callback(err)
-    RefreshToken.destroy({created_at: {$lte: moment.utc().subtract(SESSION_EXPIRY_DAYS, 'days').toDate()}}, callback)
+    RefreshToken.destroy({createdDate: {$lte: moment.utc().subtract(SESSION_EXPIRY_DAYS, 'days').toDate()}}, callback)
   })
 }
 
@@ -22,45 +22,45 @@ function getExpiryTime() { return moment.utc().add(TOKEN_EXPIRY_MINS, 'minutes')
 
 export function findOrCreateAccessToken(query, options={}, done) {
 
-  const callback = (err, access_token) => {
+  const callback = (err, accessToken) => {
     if (err) return done(err)
-    if (!access_token) return done(new Error('Failed to create Access Token'))
-    done(null, access_token.get('token'), access_token.get('refresh_token_id'), {expires_at: access_token.get('expires_at')})
+    if (!accessToken) return done(new Error('Failed to create Access Token'))
+    done(null, accessToken.get('token'), accessToken.get('refreshToken_id'), {expiresDate: accessToken.get('expiresDate')})
   }
 
-  let access_token = null
-  let refresh_token = options.refresh_token
+  let accessToken = null
+  let refreshToken = options.refreshToken
   const queue = new Queue(1)
 
   // check for existing token for non-expiring tokens
   if (!options.expires) {
     queue.defer((callback) => {
-      AccessToken.findOne(query, (err, _access_token) => {
+      AccessToken.findOne(query, (err, _accessToken) => {
         if (err) return callback(err)
-        if (_access_token && !_access_token.get('expires_at')) return callback() // exists but expires
-        access_token = _access_token
+        if (_accessToken && !_accessToken.get('expiresDate')) return callback() // exists but expires
+        accessToken = _accessToken
         callback()
       })
     })
   }
-  else if (!refresh_token) {
+  else if (!refreshToken) {
     queue.defer((callback) => {
-      refresh_token = new RefreshToken(query)
-      refresh_token.save(callback)
+      refreshToken = new RefreshToken(query)
+      refreshToken.save(callback)
     })
   }
 
   queue.await(err => {
     if (err) return callback(err)
-    if (access_token) callback(null, access_token)
+    if (accessToken) callback(null, accessToken)
 
-    const create_query = _.clone(query)
-    if (options.expires) _.extend(create_query, {expires_at: getExpiryTime(), refresh_token: refresh_token.id})
-    access_token = new AccessToken(create_query)
+    const createQuery = _.clone(query)
+    if (options.expires) _.extend(createQuery, {expiresDate: getExpiryTime(), refreshToken: refreshToken.id})
+    accessToken = new AccessToken(createQuery)
 
-    access_token.save(err => {
+    accessToken.save(err => {
       if (err) return callback(err)
-      cleanUpTokens(err => callback(err, access_token))
+      cleanUpTokens(err => callback(err, accessToken))
     })
   })
 }
@@ -85,12 +85,12 @@ export function expireToken(token, callback) {
 
 export function logout(req, callback) {
   req.logout()
-  const access_token = req.session.access_token
+  const accessToken = req.session.accessToken
   req.session.destroy(err => {
     if (err) console.log('[fl-auth] logout: Error destroying session', err)
-    if (access_token) {
-      return expireToken(access_token.token, err => {
-        if (err) console.log('[fl-auth] logout: Failed to expire access_token', err)
+    if (accessToken) {
+      return expireToken(accessToken.token, err => {
+        if (err) console.log('[fl-auth] logout: Failed to expire accessToken', err)
         callback(err)
       })
     }

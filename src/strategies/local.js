@@ -15,8 +15,8 @@ export default class RegisterStrategy extends Strategy {
   }
 
   authenticate(req) {
-    const email = (req.body && req.body[this.username_field]) || (req.query && req.query[this.username_field])
-    const password = (req.body && req.body[this.password_field]) || (req.query && req.query[this.password_field])
+    const email = (req.body && req.body[this.usernameField]) || (req.query && req.query[this.usernameField])
+    const password = (req.body && req.body[this.passwordField]) || (req.query && req.query[this.passwordField])
 
     if (!this.isValidEmail(email) || !password) return this.fail(this.bad_request_message)
 
@@ -24,12 +24,12 @@ export default class RegisterStrategy extends Strategy {
       if (err) return this.error(err)
       if (!user) return this.fail(info)
 
-      findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refresh_token, info) => {
+      findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refreshToken, info) => {
         if (err) return this.error(err)
 
-        req.session.access_token = {token, expires_at: info.expires_at}
+        req.session.accessToken = {token, expiresDate: info.expiresDate}
         req.session.save(err => {if (err) console.log('Error saving session', err)})
-        this.success(_.omit(user.toJSON(), 'password'), {access_token: token})
+        this.success(_.omit(user.toJSON(), 'password'), {accessToken: token})
       })
     })
   }

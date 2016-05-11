@@ -6,19 +6,19 @@ export default class ResetStrategy extends LocalStrategy {
   verify(req, email, password, callback) {
     const User = this.User
 
-    const {reset_token} = req.body
-    if (!reset_token) return callback(null, null, 'No token provided')
+    const {resetToken} = req.body
+    if (!resetToken) return callback(null, null, 'No token provided')
 
-    User.findOne({email, reset_token}, (err, user) => {
+    User.findOne({email, resetToken}, (err, user) => {
       if (err) return callback(err)
       if (!user) return callback(null, null, 'No user found with this token')
 
-      if (moment.utc().diff(moment(user.get('reset_token_created_at'))) > this.reset_token_expires_ms) callback(null, null, 'This token has expired')
+      if (moment.utc().diff(moment(user.get('resetToken_createdDate'))) > this.resetToken_expires_ms) callback(null, null, 'This token has expired')
 
       user.save({
         password: User.createHash(password),
-        reset_token: null,
-        reset_token_created_at: null,
+        resetToken: null,
+        resetToken_createdDate: null,
       }, callback)
 
     })

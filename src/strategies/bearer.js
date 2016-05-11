@@ -7,7 +7,7 @@ import AccessToken from '../models/AccessToken'
 const defaults = {
   name: 'bearer',
   check_request: true,
-  check_cookies: true,
+  checkCookies: true,
 }
 
 // bearer token that considers request and cookies
@@ -25,33 +25,33 @@ export default class BearerStrategy extends Strategy {
     console.log('verifying', token)
     const User = this.User
 
-    AccessToken.cursor({token, $one: true}).toJSON((err, access_token) => {
-      if (err || !access_token) return callback(err, false)
+    AccessToken.cursor({token, $one: true}).toJSON((err, accessToken) => {
+      if (err || !accessToken) return callback(err, false)
 
       // todo: when to refresh tokens?
-      // const expires_at = access_token.expires_at
+      // const expiresDate = accessToken.expiresDate
 
-      // if (expires_at && moment().isAfter(expires_at)) {
-      //   this.refreshToken(access_token.refresh_token, (err, new_access_token) => {
-      //     if (err || !new_access_token) {
+      // if (expiresDate && moment().isAfter(expiresDate)) {
+      //   this.refreshToken(accessToken.refreshToken, (err, new_accessToken) => {
+      //     if (err || !new_accessToken) {
       //       logout()
-      //       return res.redirect(302, `/login?redirect_to=${req.url}`)
+      //       return res.redirect(302, `/login?redirectTo=${req.url}`)
       //     }
-      //     req.session.access_token = new_access_token
+      //     req.session.accessToken = new_accessToken
       //     req.session.save(err => { if (err) console.log('Failed to save access token to session during refresh') } )
       //     next()
       //   })
 
       // } else next()
 
-      User.findOne(access_token.user_id, (err, user) => {
+      User.findOne(accessToken.user_id, (err, user) => {
         if (err) return callback(err)
         callback(null, user)
       })
     })
   }
 
-  refreshToken(refresh_token, callback) {
+  refreshToken(refreshToken, callback) {
     callback()
   }
 
@@ -60,10 +60,10 @@ export default class BearerStrategy extends Strategy {
 
     if (req.headers && req.headers.authorization) token = parseAuthHeader(req, 'Bearer')
 
-    if (this.check_request && !token) token = ((req.query && req.query.$access_token) || (req.body && req.body.$access_token))
-    if (req.body && req.body.$access_token) delete req.body.$access_token
+    if (this.check_request && !token) token = ((req.query && req.query.$accessToken) || (req.body && req.body.$accessToken))
+    if (req.body && req.body.$accessToken) delete req.body.$accessToken
 
-    if (this.check_cookies && !token && req.cookies) token = req.cookies.access_token
+    if (this.checkCookies && !token && req.cookies) token = req.cookies.accessToken
 
     if (!token) return this.fail(401)
 

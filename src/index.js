@@ -21,9 +21,9 @@ const defaults = {
     login: '/login',
     logout: '/logout',
     register: '/register',
-    reset_request: '/reset_request',
+    resetRequest: '/reset-request',
     reset: '/reset',
-    confirm: '/confirm_email',
+    confirm: '/confirm-email',
     success: '/',
   },
   facebook: {
@@ -33,7 +33,7 @@ const defaults = {
       callback: '/auth/facebook/callback',
     },
     scope: ['email'],
-    profile_fields: ['id', 'displayName', 'email'],
+    profileFields: ['id', 'displayName', 'email'],
   },
   linkedin: {
     url: process.env.URL,
@@ -42,22 +42,22 @@ const defaults = {
       callback: '/auth/linkedin/callback',
     },
     scope: ['r_emailaddress', 'r_basicprofile'],
-    profile_fields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
+    profileFields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
     onUserCreated: (user, profile, callback) => callback(),
   },
   login: {
-    username_field: 'email',
-    password_field: 'password',
+    usernameField: 'email',
+    passwordField: 'password',
     bad_request_message: 'Missing credentials',
-    reset_token_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
+    resetToken_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
     extra_register_params: [],
   },
   sendConfirmationEmail: (user, callback) => {
-    console.log('[fl-auth] sendConfirmationEmail not configured. No email confirmation email will be sent. Token:', user.get('email'), user.get('email_confirmation_token'))
+    console.log('[fl-auth] sendConfirmationEmail not configured. No email confirmation email will be sent. Token:', user.get('email'), user.get('emailConfirmationToken'))
     callback()
   },
   sendResetEmail: (user, callback) => {
-    console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('reset_token'))
+    console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('resetToken'))
     callback()
   },
 }

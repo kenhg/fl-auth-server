@@ -17,9 +17,9 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {access_token} = info
+        const {accessToken} = info
         return res.json({
-          access_token,
+          accessToken,
           user,
         })
       })
@@ -36,9 +36,9 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {access_token} = info
+        const {accessToken} = info
         return res.json({
-          access_token,
+          accessToken,
           user,
         })
       })
@@ -55,9 +55,9 @@ export default function configureRoutes(options={}) {
       req.login(user, {}, err => {
         if (err) return sendError(res, err)
 
-        const {access_token} = info
+        const {accessToken} = info
         return res.json({
-          access_token,
+          accessToken,
           user,
         })
       })
@@ -65,7 +65,7 @@ export default function configureRoutes(options={}) {
   })
 
   // request a reset token to be emailed to a user
-  app.post(options.paths.reset_request, (req, res) => {
+  app.post(options.paths.resetRequest, (req, res) => {
     const email = req.body.email
     if (!email) return res.status(400).send({error: 'No email provided'})
 
@@ -73,7 +73,7 @@ export default function configureRoutes(options={}) {
       if (err) return sendError(res, err)
       if (!user) return res.status(402).json({error: 'User not found'})
 
-      user.save({reset_token: createToken(), reset_token_created_at: moment.utc().toDate()}, err => {
+      user.save({resetToken: createToken(), resetToken_createdDate: moment.utc().toDate()}, err => {
         if (err) return sendError(res, err)
 
         options.sendResetEmail(user, err => {
@@ -90,11 +90,11 @@ export default function configureRoutes(options={}) {
     if (!email) return res.status(400).send({error: 'No email provided'})
     if (!token) return res.status(400).send({error: 'No email confirmation token provided'})
 
-    User.findOne({email, email_confirmation_token: token}, (err, user) => {
+    User.findOne({email, emailConfirmationToken: token}, (err, user) => {
       if (err) return sendError(res, err)
       if (!user) return res.status(402).json({error: 'User not found or token is invalid'})
 
-      user.save({email_confirmation_token: null, email_confirmed_at: moment.utc().toDate()}, err => {
+      user.save({emailConfirmationToken: null, emailConfirmed_at: moment.utc().toDate()}, err => {
         if (err) return sendError(res, err)
         res.status(200).send({})
       })
