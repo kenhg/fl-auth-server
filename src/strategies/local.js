@@ -18,7 +18,7 @@ export default class RegisterStrategy extends Strategy {
     const email = (req.body && req.body[this.usernameField]) || (req.query && req.query[this.usernameField])
     const password = (req.body && req.body[this.passwordField]) || (req.query && req.query[this.passwordField])
 
-    if (!this.isValidEmail(email) || !password) return this.fail(this.bad_request_message)
+    if (!this.isValidEmail(email) || !password) return this.fail(this.badRequestMessage)
 
     this.verify(req, email, password, (err, user, info) => {
       if (err) return this.error(err)

@@ -15,10 +15,10 @@ export default function configureStrategies(options={}) {
   passport.use('bearer', new BearerStrategy(strategyOptions))
   passport.use('reset', new ResetStrategy(strategyOptions))
 
-  if (options.facebook && options.facebook.client_id && options.facebook.client_secret) {
+  if (options.facebook && options.facebook.clientId && options.facebook.clientSecret) {
     passport.use(new FacebookStrategy({
-      clientID: options.facebook.client_id,
-      clientSecret: options.facebook.client_secret,
+      clientID: options.facebook.clientId,
+      clientSecret: options.facebook.clientSecret,
       callbackURL: options.facebook.url + options.facebook.paths.callback,
       profileFields: options.facebook.profileFields,
     },
@@ -29,16 +29,16 @@ export default function configureStrategies(options={}) {
 
       User.findOrCreate({email}, (err, user) => {
         if (err) return callback(err)
-        user.save({facebook_id: profile.id, name: profile.displayName, facebook_accessToken: token}, callback)
+        user.save({facebookId: profile.id, name: profile.displayName, facebookAccessToken: token}, callback)
       })
 
     }))
   }
 
-  if (options.linkedin && options.linkedin.client_id && options.linkedin.client_secret) {
+  if (options.linkedin && options.linkedin.clientId && options.linkedin.clientSecret) {
     passport.use(new LinkedInStrategy({
-      clientID: options.linkedin.client_id,
-      clientSecret: options.linkedin.client_secret,
+      clientID: options.linkedin.clientId,
+      clientSecret: options.linkedin.clientSecret,
       callbackURL: options.linkedin.url + options.linkedin.paths.callback,
       profileFields: options.linkedin.profileFields,
       scope: options.linkedin.scope,
@@ -53,7 +53,7 @@ export default function configureStrategies(options={}) {
       User.findOrCreate({email}, (err, user) => {
         if (err) return callback(err)
 
-        user.save({linkedin_id: profile.id, linkedin_accessToken: token}, err => {
+        user.save({linkedinId: profile.id, linkedinAccessToken: token}, err => {
           if (err) return callback(err)
 
           options.linkedin.onUserCreated(user, profile, err => {

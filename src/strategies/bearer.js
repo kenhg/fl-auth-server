@@ -6,7 +6,7 @@ import AccessToken from '../models/AccessToken'
 
 const defaults = {
   name: 'bearer',
-  check_request: true,
+  checkRequest: true,
   checkCookies: true,
 }
 
@@ -32,12 +32,12 @@ export default class BearerStrategy extends Strategy {
       // const expiresDate = accessToken.expiresDate
 
       // if (expiresDate && moment().isAfter(expiresDate)) {
-      //   this.refreshToken(accessToken.refreshToken, (err, new_accessToken) => {
-      //     if (err || !new_accessToken) {
+      //   this.refreshToken(accessToken.refreshToken, (err, newAccessToken) => {
+      //     if (err || !newAccessToken) {
       //       logout()
       //       return res.redirect(302, `/login?redirectTo=${req.url}`)
       //     }
-      //     req.session.accessToken = new_accessToken
+      //     req.session.accessToken = newAccessToken
       //     req.session.save(err => { if (err) console.log('Failed to save access token to session during refresh') } )
       //     next()
       //   })
@@ -60,7 +60,7 @@ export default class BearerStrategy extends Strategy {
 
     if (req.headers && req.headers.authorization) token = parseAuthHeader(req, 'Bearer')
 
-    if (this.check_request && !token) token = ((req.query && req.query.$accessToken) || (req.body && req.body.$accessToken))
+    if (this.checkRequest && !token) token = ((req.query && req.query.$accessToken) || (req.body && req.body.$accessToken))
     if (req.body && req.body.$accessToken) delete req.body.$accessToken
 
     if (this.checkCookies && !token && req.cookies) token = req.cookies.accessToken

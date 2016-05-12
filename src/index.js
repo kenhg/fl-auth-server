@@ -3,7 +3,7 @@ import configureStrategies from './configure/strategies'
 import configureRoutes from './configure/routes'
 import configureMiddleware from './configure/middleware'
 import configureSerializing from './configure/serialize'
-import sessionOrToken from './middleware/session_or_token'
+import sessionOrToken from './middleware/sessionOrToken'
 import createAuthMiddleware from './middleware/authorised'
 import createInternalMiddleware from './middleware/internal'
 import AccessToken from './models/AccessToken'
@@ -48,9 +48,9 @@ const defaults = {
   login: {
     usernameField: 'email',
     passwordField: 'password',
-    bad_request_message: 'Missing credentials',
-    resetToken_expires_ms: 1000 * 60 * 60 * 24 * 7, // 7 days
-    extra_register_params: [],
+    badRequestMessage: 'Missing credentials',
+    resetTokenExpiresMs: 1000 * 60 * 60 * 24 * 7, // 7 days
+    extraRegisterParams: [],
   },
   sendConfirmationEmail: (user, callback) => {
     console.log('[fl-auth] sendConfirmationEmail not configured. No email confirmation email will be sent. Token:', user.get('email'), user.get('emailConfirmationToken'))

@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 const defaults = {
-  unauthorised_message: 'Unauthorised',
+  unauthorisedMessage: 'Unauthorised',
 }
 
 export default function createAuthMiddleware(options) {
@@ -11,7 +11,7 @@ export default function createAuthMiddleware(options) {
   return function authorised(req, res, next) {
     options.canAccess({user: req.user, req, res}, (err, authorised, message) => {
       if (err) return res.status(500).send({error: err})
-      if (!authorised) return res.status(401).send({error: message || options.unauthorised_message})
+      if (!authorised) return res.status(401).send({error: message || options.unauthorisedMessage})
       next()
     })
   }

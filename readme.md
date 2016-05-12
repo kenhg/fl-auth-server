@@ -1,13 +1,5 @@
 # Server side of fl-auth-*, an auth package for FounderLab apps
 
-Changes: 
-
-- 0.4.0: Public release
-- 0.3.2: Register / login responses include all fields on the user model except password
-- 0.3.1: internalAuth can look up specific users now. It accepts a User argument. If provided and `req.query.$user_id` is present on a request that user will be looked up. `req.user` will then be set to this user instance instead of the dummy user.
-- 0.3.0: Email confirmation is sent on registration. Configure the email sending via the sendConfirmationEmail option
-- 0.2.0: Extra params for registration can be configured. Authorised middleware delegates more to the canAccess option
-
 Usage (server):
 
     import {configure as configureAuth, loggedIn} from 'fl-auth-server'
@@ -49,9 +41,9 @@ Usage (server):
       login: {                          
         usernameField: 'email',                                // The login/register strategies look for these properties on the request body
         passwordField: 'password',                             //
-        bad_request_message: 'Missing credentials',             // If username or password is missing this is sent
-        resetToken_expires_ms: 1000 * 60 * 60 * 24 * 7,        // Reset tokens expire in 7 days by default
-        extra_register_params: ['type'],                        // Extra fields to be plucked from the body of a POST to /register that will be saved on the user model. Fields not in this whitelist (other than usernameField/passwordField) are ignored
+        badRequestMessage: 'Missing credentials',             // If username or password is missing this is sent
+        resetTokenExpiresMs: 1000 * 60 * 60 * 24 * 7,        // Reset tokens expire in 7 days by default
+        extraRegisterParams: ['type'],                        // Extra fields to be plucked from the body of a POST to /register that will be saved on the user model. Fields not in this whitelist (other than usernameField/passwordField) are ignored
       },
 
       // You need to override this with a function that sends this user an email with a link to the reset page, 
@@ -67,9 +59,9 @@ Usage (server):
         // e.g.
         const email = user.get('email')
         const query = querystring.stringify({email, token: user.get('emailConfirmationToken')})
-        const message = `${app_config.url}/confirm-email?${query}`
+        const message = `${appConfig.url}/confirm-email?${query}`
         console.log('Sending emailConfirmationToken email', email, user.get('emailConfirmationToken'), message)
-        sendMail({to: email, subject: `Confirm your email for ${app_config.url}`, text: message}, callback)
+        sendMail({to: email, subject: `Confirm your email for ${appConfig.url}`, text: message}, callback)
       }
 
     })

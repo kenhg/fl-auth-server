@@ -20,7 +20,7 @@ export default function sessionOrToken(req, res, next) {
 
 //todo: refresh token
 
-// module.exports = (server_auth, callback) -> return (req, res, next) ->
+// module.exports = (serverAuth, callback) -> return (req, res, next) ->
 //   if !req.isAuthenticated or !req.isAuthenticated()
 //     requestedUrl = req.originalUrl or req.url
 
