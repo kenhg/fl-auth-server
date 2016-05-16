@@ -1,9 +1,12 @@
 
 export default function createInternalAuth(options) {
   const {User, secret} = options
+  console.log('created', options)
   return (req, res, next) => {
+    console.log('processing', req.query.$auth_secret, secret, req.query.$auth_secret === secret)
     if (req.query.$auth_secret === secret) {
       delete req.query.$auth_secret
+      console.log('User && req.query.$user_id', User , req.query.$user_id)
       if (User && req.query.$user_id) {
         let user_id
         try {
@@ -20,7 +23,7 @@ export default function createInternalAuth(options) {
           next()
         })
       }
-      req.user = {id: 'dummy', dummy: true, admin: true, authBySecret: secret}
+      req.user = {id: 'dummy', dummy: true, authBySecret: secret}
       req.user.get = prop => req.user[prop]
       return next()
     }
