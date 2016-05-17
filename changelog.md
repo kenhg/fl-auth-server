@@ -2,6 +2,11 @@
 ## [Unreleased]
   
 
+## [0.10.4]
+ - Fixes for internal auth
+ - The User model is added to req without toJSON
+ - Dont mark the dummy internal user as an admin; handle this by loading the correct user via $user_id
+
 ## [0.10.0]
  - Code style switched to camelCase for variables. 
  - Frameworkstein initial release.
