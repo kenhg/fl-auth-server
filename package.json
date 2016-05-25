@@ -19,7 +19,6 @@
     "test": "eval $(cat test/.env) mocha test/**/*.tests.js"
   },
   "dependencies": {
-    "babel-runtime": "^6.6.1",
     "backbone": "^1.2.0",
     "backbone-mongo": "^0.6.10",
     "bcrypt-nodejs": "0.0.3",
