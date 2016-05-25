@@ -2,6 +2,11 @@
 ## [Unreleased]
   
 
+## [0.11.0]
+ - Internal auth middleware changes
+    - Now accepts a deserializeUser function to load the user from the $user_ud query param
+    - No longer creates a dummy user
+
 ## [0.10.4]
  - Fixes for internal auth
  - The User model is added to req without toJSON
