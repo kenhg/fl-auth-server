@@ -4,7 +4,7 @@
 
 ## [0.11.0]
  - Internal auth middleware changes
-    - Now accepts a deserializeUser function to load the user from the $user_ud query param
+    - Now accepts a deserializeUser function to load the user from the $user_id query param
     - No longer creates a dummy user
 
 ## [0.10.4]
