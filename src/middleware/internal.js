@@ -1,27 +1,24 @@
 
-const noop = (req, res, next) => next()
-
-
 export default function createInternalMiddleware(options) {
   const {User, secret, deserializeUser} = options
 
   if (!(User || deserializeUser)) {
     console.error('[fl-auth] createInternalMiddleware requires a User or deserializeUser option')
-    return noop
+    return (req, res, next) => next()
   }
 
   const getUser = deserializeUser || ((userId, callback) => User.findOne(userId, callback))
 
   return (req, res, next) => {
 
-    if (!req.query.$auth_secret) return noop
+    if (!req.query.$auth_secret) return next()
     if (req.query.$auth_secret !== secret) {
       console.error('[fl-auth] createInternalMiddleware: Non-matching $auth_secret supplied on query - ', req.query.$auth_secret)
-      return noop
+      return next()
     }
     delete req.query.$auth_secret
 
-    if (!req.query.$user_id) return noop
+    if (!req.query.$user_id) return next()
 
     let userId
     try {
