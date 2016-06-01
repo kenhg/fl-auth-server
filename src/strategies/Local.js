@@ -2,7 +2,7 @@ import _ from 'lodash'
 import {Strategy} from 'passport'
 import {findOrCreateAccessToken} from '../lib'
 
-export default class RegisterStrategy extends Strategy {
+export default class LocalStrategy extends Strategy {
   constructor(options={}, verify) {
     super()
     _.merge(this, options)

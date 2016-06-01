@@ -116,6 +116,23 @@ export default function configureRoutes(options={}) {
     // access was granted, the user will be logged in.  Otherwise,
     // authentication has failed.
     app.get(options.facebook.paths.callback, passport.authenticate('facebook', {successRedirect: '/', failureRedirect: options.paths.login}))
+
+    app.post(options.facebook.paths.mobile, (req, res) => {
+      passport.authenticate('facebookMobile', (err, user, info) => {
+        if (err) return sendError(res, err)
+        if (!user) return res.status(402).json({error: info})
+
+        req.login(user, {}, err => {
+          if (err) return sendError(res, err)
+
+          const {accessToken} = info
+          return res.json({
+            accessToken,
+            user,
+          })
+        })
+      })
+    })
   }
 
   if (options.linkedin) {

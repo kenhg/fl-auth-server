@@ -2,7 +2,7 @@ import _ from 'lodash'
 import passport from 'passport'
 import {Strategy as FacebookStrategy} from 'passport-facebook'
 import {Strategy as LinkedInStrategy} from 'passport-linkedin-oauth2'
-import {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy} from '../strategies'
+import {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy, FacebookMobileStrategy} from '../strategies'
 
 export default function configureStrategies(options={}) {
   const User = options.User
@@ -16,13 +16,13 @@ export default function configureStrategies(options={}) {
   passport.use('reset', new ResetStrategy(strategyOptions))
 
   if (options.facebook && options.facebook.clientId && options.facebook.clientSecret) {
+
     passport.use(new FacebookStrategy({
       clientID: options.facebook.clientId,
       clientSecret: options.facebook.clientSecret,
       callbackURL: options.facebook.url + options.facebook.paths.callback,
       profileFields: options.facebook.profileFields,
     },
-
     (token, refreshToken, profile, callback) => {
       const email = _.get(profile, 'emails[0].value', '')
       if (!email) return callback(new Error(`[fl-auth] FacebookStrategy: No email from Facebook, got profile: ${JSON.stringify(profile)}`))
@@ -33,9 +33,12 @@ export default function configureStrategies(options={}) {
       })
 
     }))
+
+    passport.use('facebookMobile', new FacebookMobileStrategy(strategyOptions))
   }
 
   if (options.linkedin && options.linkedin.clientId && options.linkedin.clientSecret) {
+
     passport.use(new LinkedInStrategy({
       clientID: options.linkedin.clientId,
       clientSecret: options.linkedin.clientSecret,
@@ -44,7 +47,6 @@ export default function configureStrategies(options={}) {
       scope: options.linkedin.scope,
       state: true,
     },
-
     (token, refreshToken, profile, callback) => {
       console.log('linkedin profile', profile)
       const email = _.get(profile, 'emails[0].value', '')

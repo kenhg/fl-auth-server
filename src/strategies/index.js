@@ -1,6 +1,7 @@
-import RegisterStrategy from './register'
-import BearerStrategy from './bearer'
-import PasswordStrategy from './password'
-import ResetStrategy from './reset'
+import RegisterStrategy from './Register'
+import BearerStrategy from './Bearer'
+import PasswordStrategy from './Password'
+import ResetStrategy from './Reset'
+import FacebookMobileStrategy from './FacebookMobile'
 
-export default {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy}
+export default {BearerStrategy, PasswordStrategy, RegisterStrategy, ResetStrategy, FacebookMobileStrategy}

@@ -31,6 +31,7 @@ const defaults = {
     paths: {
       redirect: '/auth/facebook',
       callback: '/auth/facebook/callback',
+      mobile: '/auth/facebook/mobile',
     },
     scope: ['email'],
     profileFields: ['id', 'displayName', 'email'],
