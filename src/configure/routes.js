@@ -117,7 +117,7 @@ export default function configureRoutes(options={}) {
     // authentication has failed.
     app.get(options.facebook.paths.callback, passport.authenticate('facebook', {successRedirect: '/', failureRedirect: options.paths.login}))
 
-    app.post(options.facebook.paths.mobile, (req, res) => {
+    app.post(options.facebook.paths.mobile, (req, res, next) => {
       passport.authenticate('facebookMobile', (err, user, info) => {
         if (err) return sendError(res, err)
         if (!user) return res.status(402).json({error: info})
@@ -131,7 +131,7 @@ export default function configureRoutes(options={}) {
             user,
           })
         })
-      })
+      })(req, res, next)
     })
   }
 

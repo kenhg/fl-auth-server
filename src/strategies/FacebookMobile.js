@@ -25,8 +25,6 @@ export default class FacebookMobileStrategy extends Strategy {
   authenticate(req) {
     const User = this.User
 
-    console.log("authing'!")
-
     User.findOne({facebookId: req.body.userID}, (err, existingUser) => {
       if (err) return this.error(err)
       let user = existingUser
@@ -46,7 +44,6 @@ export default class FacebookMobileStrategy extends Strategy {
       }
 
       queue.await(err => {
-        console.log('ok!', err, user)
         if (err) return this.error(err)
 
         findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refreshToken, info) => {
