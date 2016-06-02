@@ -2,7 +2,7 @@
 ## [Unreleased]
   
 
-## [0.11.1]
+## [0.11.3]
   - Strategy for handling facebook logins from mobile apps
   - Fixed up casing on some files
 
