@@ -39,7 +39,11 @@ export default class FacebookMobileStrategy extends Strategy {
       else {
         queue.defer(callback => {
           user = new User({facebookId: req.body.userID, facebookAccessToken: req.body})
-          user.save(callback)
+          user.save(err => {
+            if (err) return callback(err)
+            if (user.onCreate) return user.onCreate(callback)
+            callback()
+          })
         })
       }
 
