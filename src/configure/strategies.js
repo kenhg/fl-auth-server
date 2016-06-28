@@ -61,7 +61,7 @@ export default function configureStrategies(options={}) {
         user.save({linkedinId: profile.id, linkedinAccessToken: token}, err => {
           if (err) return callback(err)
 
-          options.linkedin.onUserCreated(user, profile, isNew, err => {
+          options.linkedin.onLogin(user, profile, isNew, err => {
             if (err) return callback(err)
             callback(null, user)
           })

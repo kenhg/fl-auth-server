@@ -44,7 +44,7 @@ const defaults = {
     },
     scope: ['r_emailaddress', 'r_basicprofile'],
     profileFields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
-    onUserCreated: (user, profile, callback) => callback(),
+    onLogin: (user, profile, callback) => callback(),
   },
   login: {
     usernameField: 'email',
