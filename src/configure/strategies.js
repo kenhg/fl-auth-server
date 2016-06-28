@@ -52,13 +52,16 @@ export default function configureStrategies(options={}) {
       const email = _.get(profile, 'emails[0].value', '')
       if (!email) return callback(new Error(`[fl-auth] LinkedInStrategy: No email from LinkedIn, got profile: ${JSON.stringify(profile)}`))
 
-      User.findOrCreate({email}, (err, user) => {
+      User.findOne({email}, (err, existingUser) => {
         if (err) return callback(err)
+
+        const user = existingUser || new User()
+        const isNew = !existingUser
 
         user.save({linkedinId: profile.id, linkedinAccessToken: token}, err => {
           if (err) return callback(err)
 
-          options.linkedin.onUserCreated(user, profile, err => {
+          options.linkedin.onUserCreated(user, profile, isNew, err => {
             if (err) return callback(err)
             callback(null, user)
           })
