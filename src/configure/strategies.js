@@ -55,7 +55,7 @@ export default function configureStrategies(options={}) {
       User.findOne({email}, (err, existingUser) => {
         if (err) return callback(err)
 
-        const user = existingUser || new User()
+        const user = existingUser || new User({email})
         const isNew = !existingUser
 
         user.save({linkedinId: profile.id, linkedinAccessToken: token}, err => {
