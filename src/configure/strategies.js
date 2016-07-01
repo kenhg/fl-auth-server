@@ -48,7 +48,6 @@ export default function configureStrategies(options={}) {
       state: true,
     },
     (token, refreshToken, profile, callback) => {
-      console.log('linkedin profile', profile)
       const email = _.get(profile, 'emails[0].value', '')
       if (!email) return callback(new Error(`[fl-auth] LinkedInStrategy: No email from LinkedIn, got profile: ${JSON.stringify(profile)}`))
 
