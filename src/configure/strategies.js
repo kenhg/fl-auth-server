@@ -34,7 +34,7 @@ export default function configureStrategies(options={}) {
 
     }))
 
-    passport.use('facebookMobile', new FacebookMobileStrategy(strategyOptions))
+    passport.use('facebookMobile', new FacebookMobileStrategy(_.extend({}, strategyOptions, {facebook: options.facebook})))
   }
 
   if (options.linkedin && options.linkedin.clientId && options.linkedin.clientSecret) {

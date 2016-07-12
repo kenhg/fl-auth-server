@@ -35,6 +35,7 @@ const defaults = {
     },
     scope: ['email'],
     profileFields: ['id', 'displayName', 'email'],
+    onLogin: (user, profile, isNew, callback) => callback(),
   },
   linkedin: {
     url: process.env.URL,
@@ -44,7 +45,7 @@ const defaults = {
     },
     scope: ['r_emailaddress', 'r_basicprofile'],
     profileFields: ['first-name', 'last-name', 'email-address', 'formatted-name', 'location', 'industry', 'summary', 'specialties', 'positions', 'picture-url', 'public-profile-url'],
-    onLogin: (user, profile, callback) => callback(),
+    onLogin: (user, profile, isNew, callback) => callback(),
   },
   login: {
     usernameField: 'email',
