@@ -2,11 +2,11 @@
 ## [Unreleased]
   
 
-## [0.12.0]
+## [0.13.0]
   - onLogin option for the facebook mobile strategy
   - Facebook mobile strategy now expects the request body to contain an object with `{accessToken, profile}` rather than just the `accessToken` object.
 
-## [0.11.3]
+## [0.12.0]
   - Strategy for handling facebook logins from mobile apps
   - Fixed up casing on some files
 
