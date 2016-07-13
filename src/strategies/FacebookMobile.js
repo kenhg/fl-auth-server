@@ -34,8 +34,6 @@ export default class FacebookMobileStrategy extends Strategy {
   authenticate(req) {
     const User = this.User
     const {accessToken, profile} = req.body
-    console.log('req.body', req.body)
-    console.log('accessToken, profile', accessToken, profile)
 
     User.findOne({facebookId: accessToken.userID}, (err, existingUser) => {
       if (err) return this.error(err)
