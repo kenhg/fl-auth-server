@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import {createToken} from '../lib'
-import LocalStrategy from './local'
+import LocalStrategy from './Local'
 
 export default class RegisterStrategy extends LocalStrategy {
 

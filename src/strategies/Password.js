@@ -1,4 +1,4 @@
-import LocalStrategy from './local'
+import LocalStrategy from './Local'
 
 // Strategy to log a user in using their username/password
 export default class PasswordStrategy extends LocalStrategy {

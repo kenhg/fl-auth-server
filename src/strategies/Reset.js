@@ -1,5 +1,5 @@
-import LocalStrategy from './local'
 import moment from 'moment'
+import LocalStrategy from './Local'
 
 export default class ResetStrategy extends LocalStrategy {
 
