@@ -102,8 +102,14 @@ export default function configureRoutes(options={}) {
   })
 
   // logout
-  app.all('/logout', (req, res) => {
+  app.all(options.paths.logout, (req, res) => {
     logout(req, () => res.redirect('/'))
+  })
+
+  // status
+  app.get(options.paths.loginStatus, (req, res) => {
+    const user = req.user ? {id: req.user.id} : null
+    res.json({user})
   })
 
   if (options.facebook) {

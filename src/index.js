@@ -20,6 +20,7 @@ const defaults = {
   paths: {
     login: '/login',
     logout: '/logout',
+    loginStatus: '/login-status',
     register: '/register',
     resetRequest: '/reset-request',
     reset: '/reset',
