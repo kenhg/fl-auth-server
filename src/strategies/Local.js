@@ -20,7 +20,7 @@ export default class LocalStrategy extends Strategy {
 
     if (!this.isValidEmail(email) || !password) return this.fail(this.badRequestMessage)
 
-    this.verify(req, email, password, (err, user, info) => {
+    this.verify(req, email.trim(), password, (err, user, info) => {
       if (err) return this.error(err)
       if (!user) return this.fail(info)
 
