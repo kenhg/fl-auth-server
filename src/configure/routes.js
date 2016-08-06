@@ -121,7 +121,7 @@ export default function configureRoutes(options={}) {
     // authentication process by attempting to obtain an access token.  If
     // access was granted, the user will be logged in.  Otherwise,
     // authentication has failed.
-    app.get(options.facebook.paths.callback, passport.authenticate('facebook', {successRedirect: '/', failureRedirect: options.paths.login}))
+    app.get(options.facebook.paths.callback, passport.authenticate('facebook', {successRedirect: options.paths.success, failureRedirect: options.paths.login}))
 
     app.post(options.facebook.paths.mobile, (req, res, next) => {
       passport.authenticate('facebookMobile', (err, user, info) => {
@@ -143,7 +143,7 @@ export default function configureRoutes(options={}) {
 
   if (options.linkedin) {
     app.get(options.linkedin.paths.redirect, passport.authenticate('linkedin'))
-    app.get(options.linkedin.paths.callback, passport.authenticate('linkedin', {successRedirect: '/', failureRedirect: options.paths.login}))
+    app.get(options.linkedin.paths.callback, passport.authenticate('linkedin', {successRedirect: options.paths.success, failureRedirect: options.paths.login}))
   }
 
 }
