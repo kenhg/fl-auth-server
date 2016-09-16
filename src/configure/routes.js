@@ -92,7 +92,14 @@ export default function configureRoutes(options={}) {
 
     User.findOne({email, emailConfirmationToken: token}, (err, user) => {
       if (err) return sendError(res, err)
-      if (!user) return res.status(402).json({error: 'User not found or token is invalid'})
+
+      if (!user) {
+        return User.exists({email, emailConfirmedDate: {$lt: moment.utc().toDate()}}, (err, exists) => {
+          if (err) return sendError(res, err)
+          if (!exists) res.status(402).json({error: 'User not found or token is invalid'})
+          res.status(200).send({})
+        })
+      }
 
       user.save({emailConfirmationToken: null, emailConfirmedDate: moment.utc().toDate()}, err => {
         if (err) return sendError(res, err)
