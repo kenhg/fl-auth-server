@@ -29,6 +29,7 @@ export default class LocalStrategy extends Strategy {
 
         if (!req.session) {
           const msg = '[fl-auth] LocalStrategy: Missing session from req. Is redis running?'
+          console.log(msg)
           return this.error(new Error(msg))
         }
 

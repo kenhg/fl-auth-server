@@ -64,6 +64,7 @@ export default class FacebookMobileStrategy extends Strategy {
 
           if (!req.session) {
             const msg = '[fl-auth] FacebookMobileStrategy: Missing session from req. Is redis running?'
+            console.log(msg)
             return this.error(new Error(msg))
           }
 
