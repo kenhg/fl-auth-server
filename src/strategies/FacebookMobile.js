@@ -69,7 +69,7 @@ export default class FacebookMobileStrategy extends Strategy {
           }
 
           req.session.accessToken = {token, expiresDate: info.expiresDate}
-          req.session.save(err => {if (err) console.log('Error saving session', err)})
+          req.session.save(err => {if (err) console.log('[fl-auth] Error saving session', err)})
           this.success(_.omit(user.toJSON(), 'password'), {accessToken: token})
         })
       })

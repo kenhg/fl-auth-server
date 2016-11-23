@@ -24,7 +24,7 @@ export default class RegisterStrategy extends LocalStrategy {
         }
 
         this.sendConfirmationEmail(user, err => {
-          if (err) console.log('Error sending confirmation email')
+          if (err) console.log('[fl-auth] Error sending confirmation email', err)
         })
       })
     })
