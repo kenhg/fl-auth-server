@@ -15,7 +15,9 @@ export default function configureStrategies(options={}) {
   passport.use('bearer', new BearerStrategy(strategyOptions))
   passport.use('reset', new ResetStrategy(strategyOptions))
 
-  if (options.facebook && options.facebook.clientId && options.facebook.clientSecret) {
+  if (options.facebook) {
+    if (!options.facebook.clientId) return console.log('[fl-auth-server] Missing facebook option clientId, got', options.facebook)
+    if (!options.facebook.clientSecret) return console.log('[fl-auth-server] Missing facebook option clientSecret, got', options.facebook)
 
     passport.use(new FacebookStrategy({
       clientID: options.facebook.clientId,

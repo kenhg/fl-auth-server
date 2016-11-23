@@ -62,6 +62,12 @@ export default class FacebookMobileStrategy extends Strategy {
         findOrCreateAccessToken({user_id: user.id}, {expires: true}, (err, token, refreshToken, info) => {
           if (err) return this.error(err)
 
+          if (!req.session) {
+            const msg = '[fl-auth] FacebookMobileStrategy: Missing session from req. Is redis running?'
+            console.log(msg)
+            return this.error(new Error(msg))
+          }
+
           req.session.accessToken = {token, expiresDate: info.expiresDate}
           req.session.save(err => {if (err) console.log('Error saving session', err)})
           this.success(_.omit(user.toJSON(), 'password'), {accessToken: token})
