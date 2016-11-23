@@ -39,7 +39,9 @@ export default function configureStrategies(options={}) {
     passport.use('facebookMobile', new FacebookMobileStrategy(_.extend({}, strategyOptions, {facebook: options.facebook})))
   }
 
-  if (options.linkedin && options.linkedin.clientId && options.linkedin.clientSecret) {
+  if (options.linkedin) {
+    if (!options.linkedin.clientId) return console.log('[fl-auth-server] Missing linkedin option clientId, got', options.linkedin)
+    if (!options.linkedin.clientSecret) return console.log('[fl-auth-server] Missing facebook option clientSecret, got', options.linkedin)
 
     passport.use(new LinkedInStrategy({
       clientID: options.linkedin.clientId,
