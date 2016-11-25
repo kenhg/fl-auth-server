@@ -122,7 +122,7 @@ export default function configureRoutes(options={}) {
   if (options.facebook) {
     // Redirect the user to Facebook for authentication.  When complete,
     // Facebook will redirect the user back to the application at options.paths.facebook_callback
-    app.get(options.facebook.paths.redirect, passport.authenticate('facebook', {scope: options.facebook.scope}))
+    app.get(options.facebook.paths.redirect, options.setReturnTo, passport.authenticate('facebook', {scope: options.facebook.scope}))
 
     // Facebook will redirect the user to this URL after approval.  Finish the
     // authentication process by attempting to obtain an access token.  If
@@ -149,7 +149,7 @@ export default function configureRoutes(options={}) {
   }
 
   if (options.linkedin) {
-    app.get(options.linkedin.paths.redirect, passport.authenticate('linkedin'))
+    app.get(options.linkedin.paths.redirect, options.setReturnTo, passport.authenticate('linkedin'))
     app.get(options.linkedin.paths.callback, passport.authenticate('linkedin', {successRedirect: options.paths.success, failureRedirect: options.paths.login}))
   }
 

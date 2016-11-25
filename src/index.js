@@ -63,6 +63,14 @@ const defaults = {
     console.log('[fl-auth] sendResetEmail not configured. No password reset email will be sent. Reset token:', user.get('email'), user.get('resetToken'))
     callback()
   },
+
+  setReturnTo: (req, res, next) => {
+    req.session.returnTo = req.query.returnTo || req.headers.referer
+    req.session.save(err => {
+      if (err) console.log('[fl-auth] Error saving session', err)
+      next()
+    })
+  }
 }
 
 export default function configure(options_={}) {
