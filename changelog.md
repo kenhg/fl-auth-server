@@ -2,6 +2,9 @@
 ## [Unreleased]
   
 
+## [0.14.0]
+  - req.user deserializes to a plain js object rather than a Backbone model by default
+
 ## [0.13.0]
   - onLogin option for the facebook mobile strategy
   - Facebook mobile strategy now expects the request body to contain an object with `{accessToken, profile}` rather than just the `accessToken` object.

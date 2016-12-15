@@ -10,5 +10,5 @@ export default function configureSerializing(options={}) {
     callback(null, user.id)
   }))
 
-  passport.deserializeUser(options.serializing.deserializeUser || ((id, callback) => User.findOne(id, callback)))
+  passport.deserializeUser(options.serializing.deserializeUser || ((id, callback) => User.cursor({id, $one: true}).toJSON(callback)))
 }
