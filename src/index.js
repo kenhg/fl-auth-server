@@ -15,8 +15,6 @@ const defaults = {
     initialize: true,
     session: true,
   },
-  serializing: {
-  },
   paths: {
     login: '/login',
     logout: '/logout',
@@ -26,6 +24,9 @@ const defaults = {
     reset: '/reset',
     confirm: '/confirm-email',
     success: '/',
+  },
+  serializing: {
+
   },
   facebook: {
     url: process.env.URL,
@@ -73,11 +74,20 @@ const defaults = {
   }
 }
 
-export default function configure(options_={}) {
-  const options = _.merge(defaults, options_)
+export default function configure(_options={}) {
+  const options = _.merge(defaults, _options)
   if (!options.app) throw new Error('[fl-auth] init: Missing app from options')
-
   if (!options.User) options.User = require('./models/user')
+
+  if (!options.serializing.serializeUser) {
+    options.serializing.serializeUser = (user, callback) => {
+      if (!user) return callback(new Error('[fl-auth] User missing'))
+      callback(null, user.id)
+    }
+  }
+  if (!options.serializing.deserializeUser) {
+    options.serializing.deserializeUser = (id, callback) => options.User.cursor({id, $one: true}).toJSON(callback)
+  }
 
   configureMiddleware(options)
   configureSerializing(options)

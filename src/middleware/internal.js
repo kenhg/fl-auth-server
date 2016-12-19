@@ -7,7 +7,7 @@ export default function createInternalMiddleware(options) {
     return (req, res, next) => next()
   }
 
-  const getUser = deserializeUser || ((userId, callback) => User.findOne(userId, callback))
+  const getUser = deserializeUser || ((id, callback) => User.cursor({id, $one: true}).toJSON(callback))
 
   return (req, res, next) => {
 
