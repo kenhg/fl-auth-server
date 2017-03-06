@@ -11,13 +11,15 @@ export default class RegisterStrategy extends LocalStrategy {
       if (err) return callback(err)
       if (existingUser) return callback(null, false, 'User already exists')
 
-      const extraParams = _.pick(req.body, this.extraRegisterParams, extraOtherParams)
+      const extraParams = _.pick(req.body, this.extraRegisterParams)
+      const nonUserParam = _.pick(req.body, this.extraOtherParams)
+
       const user = new User({email, password: User.createHash(password), emailConfirmationToken: createToken(), ...extraParams})
       user.save(err => {
         if (err) return callback(err)
 
         if (user.onCreate) {
-          user.onCreate(extraOtherParams, err => callback(err, user))
+          user.onCreate(nonUserParam, err => callback(err, user))
         }
         else {
           callback(null, user)
