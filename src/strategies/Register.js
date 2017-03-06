@@ -14,6 +14,8 @@ export default class RegisterStrategy extends LocalStrategy {
       const extraParams = _.pick(req.body, this.extraRegisterParams)
       const nonUserParam = _.pick(req.body, this.extraOtherParams)
 
+      console.log('req,body', req.body)
+
       const user = new User({email, password: User.createHash(password), emailConfirmationToken: createToken(), ...extraParams})
       user.save(err => {
         if (err) return callback(err)
